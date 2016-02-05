@@ -10,16 +10,66 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    //Properties
+    var numberToMultiply = 0
+    var numberOfClicks = 0
+//    var currentTotal = 0
+    let maxClicks = 8
+    
+    
+    //Outlets
+    @IBOutlet weak var titleImg: UIImageView!
+    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var chosenMultiple: UITextField!
+    @IBOutlet weak var mathDisplay: UILabel!
+    @IBOutlet weak var addButton: UIButton!
+
+
+    
+    func toggleHidden() {
+        titleImg.hidden = !titleImg.hidden
+        playButton.hidden = !playButton.hidden
+        chosenMultiple.hidden = !chosenMultiple.hidden
+        mathDisplay.hidden = !mathDisplay.hidden
+        addButton.hidden = !addButton.hidden
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    
+    
+    func updateCounter() {
+        mathDisplay.text = "\(numberToMultiply * numberOfClicks) + \(numberToMultiply) = \(numberToMultiply * (numberOfClicks + 1))"
     }
-
-
+    
+    func restartGame() {
+        toggleHidden()
+        mathDisplay.text = ""
+        chosenMultiple.text = ""
+        numberOfClicks = 0
+        numberToMultiply = 0
+    }
+    
+    
+    @IBAction func pushPlayButton(sender: UIButton) {
+        
+        if chosenMultiple.text != nil && chosenMultiple.text != "" {
+            toggleHidden()
+            numberOfClicks = 0
+            numberToMultiply = Int(chosenMultiple.text!)!
+            updateCounter()
+        }
+    }
+    
+    @IBAction func pushAddButton(sender: UIButton) {
+        numberOfClicks++
+        if numberOfClicks >= maxClicks {
+            restartGame()
+        } else {
+            updateCounter()
+        }
+    }
+    
+    
 }
+
+
 
